@@ -9,6 +9,7 @@
   --font-main: 'Inter', sans-serif;
   --font-mono: 'JetBrains Mono', monospace;
   --transition-smooth: cubic-bezier(0.165, 0.84, 0.44, 1);
+  --baropacity: 0.0;
 }
 
 * {
@@ -66,7 +67,30 @@ canvas {
 
 #app {
   width: 100%;
-  min-height: 100vh;
+  height: 420vh;
+  position: absolute;
+  top: 0px;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+#app *, #app ::after, #app ::before {
+  box-sizing: border-box;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, var(--baropacity, 0.9));
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: 0 0;
 }
 
 section {

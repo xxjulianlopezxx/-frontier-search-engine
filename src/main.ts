@@ -263,6 +263,17 @@ class App {
     window.addEventListener('scroll', () => {
       const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
       this.scrollProgress = scrollHeight > 0 ? window.scrollY / scrollHeight : 0;
+
+      // Update scrollbar opacity
+      document.documentElement.style.setProperty('--baropacity', '0.9');
+      if ((this as any).scrollTimeout) clearTimeout((this as any).scrollTimeout);
+      (this as any).scrollTimeout = setTimeout(() => {
+        gsap.to(document.documentElement, {
+          '--baropacity': 0,
+          duration: 1,
+          ease: 'power2.out'
+        });
+      }, 1000);
     });
   }
 
