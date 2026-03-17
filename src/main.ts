@@ -72,6 +72,10 @@ class App {
   private raycaster: THREE.Raycaster;
   private mouse: THREE.Vector2;
   private selectedProject: Project | null = null;
+  private virtualScroll = 0;
+  private targetVirtualScroll = 0;
+  private readonly scrollSensitivity = 0.001;
+  private readonly scrollLerp = 0.05;
 
   constructor() {
     this.scene = new THREE.Scene();
@@ -260,10 +264,12 @@ class App {
       this.checkIntersection();
     });
 
-    window.addEventListener('scroll', () => {
-      const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
-      this.scrollProgress = scrollHeight > 0 ? window.scrollY / scrollHeight : 0;
-
+    // Virtual Scroll (Wheel)
+    window.addEventListener('wheel', (e) => {
+      if (this.selectedProject) return;
+      this.targetVirtualScroll += e.deltaY * this.scrollSensitivity;
+      this.targetVirtualScroll = Math.max(0, Math.min(this.targetVirtualScroll, 1));
+      
       // Update scrollbar opacity
       document.documentElement.style.setProperty('--baropacity', '0.9');
       if ((this as any).scrollTimeout) clearTimeout((this as any).scrollTimeout);
@@ -274,7 +280,22 @@ class App {
           ease: 'power2.out'
         });
       }, 1000);
-    });
+    }, { passive: false });
+
+    // Touch Scroll
+    let touchStartY = 0;
+    window.addEventListener('touchstart', (e) => {
+      touchStartY = e.touches[0].clientY;
+    }, { passive: true });
+
+    window.addEventListener('touchmove', (e) => {
+      if (this.selectedProject) return;
+      const touchY = e.touches[0].clientY;
+      const deltaY = touchStartY - touchY;
+      this.targetVirtualScroll += deltaY * this.scrollSensitivity * 2;
+      this.targetVirtualScroll = Math.max(0, Math.min(this.targetVirtualScroll, 1));
+      touchStartY = touchY;
+    }, { passive: true });
   }
 
   private render() {
@@ -283,6 +304,9 @@ class App {
 
     this.particles.rotation.y = elapsedTime * 0.05;
     this.particles.rotation.x = Math.sin(elapsedTime * 0.1) * 0.1;
+
+    this.virtualScroll += (this.targetVirtualScroll - this.virtualScroll) * this.scrollLerp;
+    this.scrollProgress = this.virtualScroll;
 
     this.updateProjectCards();
 
