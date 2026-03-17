@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FRONTIERS | Cinematic Portfolio</title>
+    <meta name="description" content="A cinematic, immersive landing page for FRONTIERS." />
+  </head>
+  <body>
+    <div id="app">
+        <!-- Sidebar Navigation -->
+        <nav id="sidebar-nav">
+            <div class="nav-group">
+                <span class="nav-label">WHAT ARE YOU LOOKING FOR?</span>
+                <ul>
+                    <li><a href="#">WEBSITES <span>-></span></a></li>
+                    <li><a href="#">INSTALLATIONS <span>-></span></a></li>
+                    <li><a href="#">XR / VR / AI <span>-></span></a></li>
+                    <li><a href="#">MULTIPLAYER <span>-></span></a></li>
+                    <li><a href="#">GAMES <span>-></span></a></li>
+                </ul>
+            </div>
+            
+            <div class="search-container">
+                <input type="text" placeholder="ASK ME ANYTHING..." id="main-search">
+            </div>
+        </nav>
+
+        <!-- Top Navigation -->
+        <nav id="top-nav">
+            <div class="logo">FRONTIERS</div>
+            <div class="nav-links">
+                <a href="#">WORK</a>
+                <span class="nav-divider"></span>
+                <a href="#">CONTACT</a>
+            </div>
+        </nav>
+
+        <header class="hero">
+            <h1 id="hero-text" class="glitch" data-text="FRONTIERS">FRONTIERS</h1>
+        </header>
+
+        <main id="project-grid">
+            <!-- Projects rendered here via main.ts -->
+        </main>
+    </div>
+    <div class="cursor" id="cursor"></div>
+    <div class="cursor-follower" id="cursor-follower"></div>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>
